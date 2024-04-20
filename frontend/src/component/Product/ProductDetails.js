@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
-import Carousel from 'react-material-ui-carousel';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Carousel } from 'react-bootstrap';
 import './ProductDetails.css';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getProductDetails } from '../../actions/productAction';
 import ReactStars from 'react-rating-stars-component';
+import ReviewCard from './ReviewCard.js'
+import Loader from '../layout/Loader/Loader.js'
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -20,25 +23,33 @@ const ProductDetails = () => {
     edit:false,
     color: "rgba(20,20,20,0.1)",
     activeColor:"tomato",
-    size: window.innerWidth<600? 20:25,
-    value: product.ratings,
-    isHalf: true,
-  }
+    size: window.innerWidth< 600 ? 20:25,
+    value:product.ratings,
+    isHalf:true,
+}
 
   return (
     <>
-      <div className='productDetails'>
+    {loading? (<Loader/>) : (  <>
+    <div className='productDetails'>
         <div>
           <Carousel>
-            {product.images && product.images.map((item, i) => (
-              <img
-                className='CarouselImage'
-                key={item.url}
-                src={item.url}
-                alt={`${i} Slide`}
-              />
-            ))}
-          </Carousel>
+      {product.images &&
+        product.images.map((item, i) => (
+          <Carousel.Item key={item.url}>
+            <img
+              className='CarouselImage'
+              src={item.url}
+              alt={`${i} Slide`}
+              style={{
+                height: 'auto',
+                maxWidth: '100%',
+              }}
+            />
+          </Carousel.Item>
+        ))}
+    </Carousel>
+
         </div>
 
 <div>
@@ -48,8 +59,7 @@ const ProductDetails = () => {
 </div>
 
 <div className='detailsBlock-2'>
-<ReactStars {...options} />
-<span>({product.numOfReviews} Reviews)</span>
+<ReactStars {...options} /> <span> ({product.numOfReviews} Reviews)</span>
 </div>
 
 <div className='detailsBlock-3'>
@@ -79,9 +89,16 @@ const ProductDetails = () => {
 </div>
 
       </div>
-    </>
-  );
-}
+
+      <h3 className='reviewsHeading'>REVIEWS </h3>
+
+      {product.reviews && product.reviews[0]? (<div className='reviews'>
+        {product.reviews && product.reviews.map((review)=> <ReviewCard review={review}/>)}
+      </div>
+      ): (<p className='noReviews'>No Reviews Yet</p>)};
+      </>
+  )};
+  </>)};
 
 export default ProductDetails;
 
