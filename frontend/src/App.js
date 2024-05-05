@@ -6,6 +6,9 @@ import WebFont from 'webfontloader';
 import React, { useEffect } from 'react';
 import Home from './component/Home/Home.js';
 import ProductDetails from './component/Product/ProductDetails.js';
+import Products from './component/Product/Products.js';
+import Search from './component/Product/Search.js';
+import { useParams } from 'react-router-dom';
 
 function App() {
   useEffect(() => {
@@ -16,16 +19,29 @@ function App() {
     })
   }, []);
 
+  // Nested component to render routes and pass match prop to Products
+  const NestedRoutes = () => {
+    const params = useParams()
+    return (
+      <>
+        <Header />
+        <Routes>
+          <Route path='/' element={<Home/>} />
+          <Route path="/product/:id" element={<ProductDetails/>} />
+          <Route path="/products" element={<Products/>} />
+          <Route path='/products/:keyword' element={<Products match={params} />} />
+          <Route path='/Search' element={<Search/>}/>
+        </Routes>
+        <Footer />
+      </>
+    );
+  };
+
   return (
     <Router>
-      <Header />
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path="/product/:id" element={<ProductDetails/>} />
-      </Routes>
-      <Footer />
+      <NestedRoutes />
     </Router>
   );
-};
+}
 
 export default App;

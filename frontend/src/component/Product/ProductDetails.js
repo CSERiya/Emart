@@ -4,20 +4,27 @@ import { Carousel } from 'react-bootstrap';
 import './ProductDetails.css';
 import { useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProductDetails } from '../../actions/productAction';
-import ReactStars from 'react-rating-stars-component';
+import { clearErrors, getProductDetails } from '../../actions/productAction';
+ import ReactStars from 'react-rating-stars-component';
 import ReviewCard from './ReviewCard.js'
 import Loader from '../layout/Loader/Loader.js'
+import {useAlert} from "react-alert"
 
 const ProductDetails = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const alert=useAlert();
 
   const { product, loading, error } = useSelector((state) => state.productDetails);
 
   useEffect(() => {
+    if(error){
+      alert.error(error);
+      dispatch(clearErrors());
+    }
+
     dispatch(getProductDetails(id));
-  }, [dispatch, id],loading,error); 
+  }, [dispatch, id,loading,error,alert]); 
 
   const options={
     edit:false,

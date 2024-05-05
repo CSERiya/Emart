@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react'
 import './Home.css'
 import { CgMouse } from 'react-icons/cg';
-import Product from './Product.js'
+import Product from './ProductCard.js'
 import MetaData from '../layout/MetaData.js';
 import { getProduct } from '../../actions/productAction.js';
 import {useSelector, useDispatch} from "react-redux"
 import Loader from '../layout/Loader/Loader.js';
 import {useAlert} from 'react-alert'
+import { clearErrors } from '../../actions/productAction';
 
 
 const Home = () => {
@@ -17,7 +18,8 @@ const  {loading, error, products}= useSelector((state)=>state.products);
 
   useEffect(()=> {
     if(error){
-      return alert.error(error);
+      alert.error(error);
+      dispatch(clearErrors());
     }
    dispatch(getProduct());
   }, [dispatch, error, alert]);
