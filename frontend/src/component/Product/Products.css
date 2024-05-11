@@ -14,3 +14,82 @@
     padding: 0 5vmax;
     justify-content: center;
 }
+
+.paginationBox {
+    display: flex;
+    justify-content: center;
+    margin: 6vmax;
+  }
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    padding: 0;
+  }
+  
+  .page-item >a {
+    background-color: rgb(255, 255, 255);
+    list-style: none;
+    border: 1px solid rgb(182, 178, 178);
+    padding: 1.2vmax 1.6vmax;
+    transition: all 0.1s;
+    font-size: medium;
+    font-weight: 500;
+    cursor: pointer;
+  }
+
+.page-item.disabled{
+    background-color: rgb(218, 211, 211);
+    border: 1px solid rgb(182, 178, 178);
+}
+
+.page-item.disabled> a{
+    border: 0px white;
+    background-color: rgb(218, 211, 211);
+    font-size: medium;
+    font-weight: 500;
+}
+
+.page-item.disabled:hover{
+    cursor: not-allowed;
+    transform: none;
+    background-color: rgb(218, 211, 211);
+}
+
+  .page-item:first-child {
+    border-radius: 5px 0 0 5px;
+  }
+  
+  .page-item:last-child {
+    border-radius: 0 5px 5px 0;
+  }
+  .page-link {
+    text-decoration: none;
+    font: 300 0.7vmax "Roboto";
+    color: rgb(80, 80, 80);
+  }
+  
+  .page-item>a:hover {
+    background-color: rgb(228, 222, 222);
+    color: black;
+    outline: none;
+  }
+
+  .page-link.pageLinkActive {
+    background-color: tomato;
+    color: white;
+  }
+  
+  .page-item.pageItemActive:hover .page-link {
+    color: rgb(0, 0, 0);
+    background-color: tomato;
+    transform: none;
+  }
+
+  .filterBox{
+    width: 10vmax;
+    position: absolute;
+    top: 10vmax;
+    left: 4vmax;
+  }
+  

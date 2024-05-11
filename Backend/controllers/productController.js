@@ -15,20 +15,33 @@ req.body.user= req.user.id;
     })
 });
 
-// Get All Products
-exports.getAllProducts= catchAsyncError(async(req,res,next)=>{
-
-const resultPerPage=8;
-const productCount= await Product.countDocuments();
-
-    const apiFeature= new ApiFeatures(Product.find(), req.query).search().filter().pagination(resultPerPage);
-    const products= await apiFeature.query;
+// Get all Products
+exports.getAllProducts = catchAsyncError(async (req, res, next) => {
+    const resultPerPage = 8;
+    const productsCount = await Product.countDocuments();
+  
+     const apiFeature = new ApiFeatures(Product.find(), req.query)
+      .search()
+      .filter();
+  
+    let products = await apiFeature.query.clone();
+  
+    let filteredProductsCount = products.length;
+  
+    apiFeature.pagination(resultPerPage);
+  
+    products = await apiFeature.query;
+  
     res.status(200).json({
-        success:true,
-        products,
-        productCount,
-    })
-});
+      success: true,
+      products,
+      productsCount,
+      resultPerPage,
+      filteredProductsCount,
+    });
+  });
+
+
 
 // Update Product -- Accessible by Admin only
 exports.updateProduct= catchAsyncError(async(req,res,next)=>{

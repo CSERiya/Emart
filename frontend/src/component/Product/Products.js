@@ -1,22 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Products.css';
 import { useSelector, useDispatch } from 'react-redux';
 import { clearErrors, getProduct } from '../../actions/productAction';
 import Loader from '../layout/Loader/Loader';
 import ProductCard from '../Home/ProductCard';
 import { useParams } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
+import Slider from '@material-ui/core/Slider';
+import  Typography  from '@material-ui/core/Typography';
 
 const Products = () => {
-  const dispatch= useDispatch();
-  const { keyword } = useParams(); // Access the keyword parameter
+  const dispatch = useDispatch();
 
-  const { products, loading, error, productsCount } = useSelector(
+  const [currentPage, setCurrentPage] = useState(1);
+  const [price, setPrice]= useState([0, 25000]); 
+
+  const { keyword } = useParams();
+  const { products, loading, error, productsCount, resultPerPage, filteredProductsCount } = useSelector(
     (state) => state.products
   );
 
+  const setCurrentPageNo = (page) => {
+    setCurrentPage(page);
+  };
+
+  const priceHandler=(event, newPrice)=>{
+setPrice(newPrice);
+  };
+
   useEffect(() => {
-    dispatch(getProduct(keyword));
-  }, [dispatch, keyword]);
+    dispatch(getProduct(keyword, currentPage, price));
+  }, [dispatch, keyword, currentPage, price]);
+
+  let count= filteredProductsCount;
+  console.log(count);
 
   return (
     <>
@@ -31,6 +48,38 @@ const Products = () => {
                 <ProductCard key={product._id} product={product} />
               ))}
           </div>
+         
+
+         {/* For filtering Price to check objects within the searched price range by the user */}
+<div className='filterBox'>
+<Typography>Price</Typography>
+<Slider value={price}
+onChange={priceHandler}
+valueLabelDisplay='auto'
+aria-labelledby='range-slider'
+min={0}
+max={25000}
+/>
+</div>
+
+  {resultPerPage < count && (
+            <div className="paginationBox">
+              <Pagination
+                activePage={currentPage}
+                itemsCountPerPage={resultPerPage}
+                totalItemsCount={productsCount}
+                onChange={setCurrentPageNo}
+                nextPageText="Next"
+                prevPageText="Prev"
+                firstPageText="1st"
+                lastPageText="Last"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="pageItemActive"
+                activeLinkClass="pageLinkActive"
+              />
+            </div>
+          )}
         </>
       )}
     </>
@@ -38,5 +87,4 @@ const Products = () => {
 };
 
 export default Products;
-
 
