@@ -13,6 +13,7 @@
     flex-wrap: wrap;
     padding: 0 5vmax;
     justify-content: center;
+    min-height: 30vh;
 }
 
 .paginationBox {
@@ -92,4 +93,80 @@
     top: 10vmax;
     left: 4vmax;
   }
+
+  .categoryBox{
+    padding: 0%;
+  }
+
+  .category-link{
+    list-style: none;
+    color: rgba(0, 0, 0, 0.61);
+    font: 400 0.8vmax "Roboto";
+    margin: 0.4vmax;
+    cursor: pointer;
+    transition: all 0.5s;
+  }
+
+  .category-link:hover{
+    color: tomato;
+  }
+
+  .ratingsFieldset {
+    border: 1px solid #000; 
+    border-radius: 5px; 
+    padding: 10px; 
+    margin-top: 40px;
+    margin-left: -10px;
+    margin-right: 10px;
+    width: 150px;
+    height:60px;
+  }
+  
+  .ratingsFieldset legend {
+    background-color: #fff; 
+    padding-left: 5px;
+    margin-top: -20px;
+    font-size: 1vmax;
+    margin-left: 6px;
+    width: 100px;
+    font-weight: 500;
+  }
+  
+  @media(max-width:2560px){
+    .filterBox{
+    margin-top: -20px;
+    }
+
+  }
+
+@media(max-width:1440px){
+  .filterBox{
+  margin-top: -50px;
+  }
+}
+
+  @media(max-width: 1024px){
+    .filterBox{
+      width: 20vmax;
+      position: static;
+      margin: auto;
+    }
+
+    .page-link{
+      font: 300 1.7vmax "Roboto";
+    }
+    .category-link{
+      font: 400 1.8vmax "Roboto";
+    }
+  
+  .ratingsFieldset legend {
+    padding-left: 5px;
+    margin-top: -20px;
+    font: 300 1.2vmax "Roboto";
+    font-weight: bold;
+    margin-left: 0px;
+    width: 95px;
+  }
+  }
+
   
