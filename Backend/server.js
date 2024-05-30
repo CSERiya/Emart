@@ -1,13 +1,18 @@
 const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
+const bodyParser= require("body-parser");
+const fileUpload = require("express-fileupload")
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const errorMiddleware = require('./middleware/error');
+const cloudinary = require("cloudinary")
 
 // Middleware
 app.use(express.json());
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(fileUpload());
 
 // Route Imports
 const product = require("./routes/productRoute");
@@ -39,6 +44,12 @@ const db = mongoose.connection;
 db.once('open', function () {
     console.log('MongoDB connected successfully!');
 });
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key:process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+})
 
 // Start the Express server
 const PORT = process.env.PORT || 4000;

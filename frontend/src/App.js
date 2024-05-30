@@ -10,6 +10,8 @@ import Products from './component/Product/Products.js';
 import Search from './component/Product/Search.js';
 import { useParams } from 'react-router-dom';
 import LoginSignUp from './component/User/LoginSignUp.js';
+import store from './store.js'
+import { loadUser } from './actions/userAction.js';
 
 function App() {
   useEffect(() => {
@@ -18,6 +20,9 @@ function App() {
         families: ["Roboto", "Droid Sans", "Chilanka"]
       }
     })
+
+    store.dispatch(loadUser());
+
   }, []);
 
   // Nested component to render routes and pass match prop to Products
