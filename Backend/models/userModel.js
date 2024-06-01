@@ -40,7 +40,7 @@ role:{
 
 resetPasswordToken: String,
 resetPasswordExpire: Date,
-});
+}, { timestamps: true });
 
 userSchema.pre("save", async function(next){
 

@@ -6,7 +6,7 @@ import MailOutlineIcon from '@material-ui/icons/MailOutline';
 import FaceIcon from '@material-ui/icons/Face';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import {useDispatch, useSelector} from 'react-redux';
-import { clearErrors, login, register } from '../../actions/userAction';
+import { clearErrors, login, register, } from '../../actions/userAction';
 import {useAlert} from 'react-alert';
 
 const LoginSignUp = () => {
