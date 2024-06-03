@@ -1,20 +1,24 @@
 import './App.css';
-import Header from "./component/layout/Header/Header.js";
-import Footer from "./component/layout/Footer/Footer.js";
+import Header from "./component/layout/Header/Header";
+import Footer from "./component/layout/Footer/Footer";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import React, { useEffect } from 'react';
-import Home from './component/Home/Home.js';
-import ProductDetails from './component/Product/ProductDetails.js';
-import Products from './component/Product/Products.js';
-import Search from './component/Product/Search.js';
+import Home from './component/Home/Home';
+import ProductDetails from './component/Product/ProductDetails';
+import Products from './component/Product/Products';
+import Search from './component/Product/Search';
 import { useParams } from 'react-router-dom';
-import LoginSignUp from './component/User/LoginSignUp.js';
-import store from './store.js'
-import { loadUser } from './actions/userAction.js';
-import UserOptions from './component/layout/Header/UserOptions.js'
+import LoginSignUp from './component/User/LoginSignUp';
+import store from './store'
+import { loadUser } from './actions/userAction';
+import UserOptions from './component/layout/Header/UserOptions'
 import { useSelector } from 'react-redux';
-import Profile from './component/User/Profile.js'
+import Profile from './component/User/Profile'
+import  UpdateProfile  from './component/User/UpdateProfile';
+import UpdatePassword from './component/User/UpdatePassword';
+import ForgotPassword from './component/User/ForgotPassword';
+import ResetPassword from './component/User/ResetPassword';
 
 function App() {
 
@@ -45,7 +49,11 @@ const {isAuthenticated, user}= useSelector(state=>state.user);
           <Route path='/products/:keyword' element={<Products match={params} />} />
           <Route path='/Search' element={<Search/>}/>
           <Route path='/login' element={<LoginSignUp/>}/>
-          <Route path='/account' element={<Profile/>} />
+          <Route path="/account" element={<Profile />} />
+          <Route path="/me/update" element={<UpdateProfile />} />
+          <Route path="/password/update" element={<UpdatePassword />} />
+          <Route path='/password/forgot' element={<ForgotPassword/>}/>
+          <Route path='/password/reset/:token' element={< ResetPassword/>}/>
         </Routes>
         <Footer />
       </>
