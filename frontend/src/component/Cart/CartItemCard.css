@@ -40,4 +40,17 @@
     .CartItemCard>img{
         width: 10vmax;
     }
+    .CartItemCard>div{
+        margin: 1vmax 2vmax;
+    }
+    .CartItemCard>div>a{
+        font: 300 2vmax cursive;
+    }
+    .CartItemCard>div>span{
+        font:300 1.9vmax "Roboto";
+    }
+    .CartItemCard>div>p{
+        font: 100 1.8vmax "Roboto";
+    }
+    
 }

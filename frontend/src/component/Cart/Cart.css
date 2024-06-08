@@ -17,3 +17,50 @@
 .cartHeader>p:last-child{
     text-align: end;
 }
+
+.cartContainer{
+    width: 90%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+}
+
+.cartInput{
+    display: flex;
+    align-items: center;
+    height: 8vmax;
+}
+
+.cartInput>button{
+    border: none;
+    background-color: rgba(0,0,0,0.616);
+    color: white;
+    transition: all 0.5s;
+    cursor: pointer;
+    padding: 0.5vmax;
+}
+
+.cartInput>button:hover{
+    background-color: rgba(0,0,0,0.767);
+}
+
+.cartInput>input{
+    border: none;
+    padding: 0.5vmax;
+    width: 1vmax;
+    text-align: center;
+    outline: none;
+    font: 400 0.8vmax "Roboto";
+    color: rgba(0,0,0,0.74);
+}
+
+.cartSubtotal{
+    display: flex;
+    padding: 0.5vmax;
+    height: 8vmax;
+    align-items: center;
+    box-sizing: border-box;
+    font: 300 1vmax cursive;
+    justify-content: flex-end;
+    color: rgba(0,0,0,0.753);
+}
