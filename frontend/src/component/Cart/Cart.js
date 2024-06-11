@@ -1,19 +1,42 @@
 import React from 'react'
 import './Cart.css'
 import CartItemCard from './CartItemCard';
+import {useSelector, useDispatch} from 'react-redux';
+import { addItemsToCart, removeItemsFromCart } from '../../actions/cartAction';
+import { Typography } from '@material-ui/core';
+import RemoveShoppingCartIcon from '@material-ui/icons/RemoveShoppingCart'
+import {Link} from 'react-router-dom';
 
 const Cart = () => {
+  const dispatch= useDispatch();
+  const {cartItems}= useSelector((state)=> state.cart);
 
-const item= {
-    product:"Bedsheet",
-    price:200,
-    name:"Riya",
-    quantity:1,
-    image:"https://m.media-amazon.com/images/I/816rTCsPhWL._AC_UF894,1000_QL80_.jpg",
-}
+  const increaseQuantity = (id, quantity, stock)=>{
+const newQty= quantity+1;
+    if (stock <= quantity) return;
+    dispatch(addItemsToCart(id, newQty));
+  };
+
+  const decreaseQuantity = (id, quantity) => {
+    const newQty = quantity - 1;
+    if (quantity <= 1) return;
+    dispatch(addItemsToCart(id, newQty));
+  };
+
+  const deleteCartItems=(id)=>{
+dispatch(removeItemsFromCart(id));
+  }
 
   return (
   <>
+  {cartItems.length ===0? (
+    <div className='emptyCart'>
+      <RemoveShoppingCartIcon/>
+      <Typography>No Product in Your Cart</Typography>
+      <Link to='/products'>View Products</Link>
+    </div>
+  ):
+  (<>
   <div className='cartPage'>
     <div className='cartHeader'>
         <p>Product</p>
@@ -21,16 +44,35 @@ const item= {
         <p>Subtotal</p>
     </div>
 
-    <div className='cartContainer'>
-        <CartItemCard item={item}/>
+    {cartItems && cartItems.map((item)=>(
+      <div className='cartContainer' key={item.product}>
+        <CartItemCard item={item} deleteCartItems={deleteCartItems}/>
        <div className='cartInput'>
-        <button>-</button>
+        <button onClick={()=>decreaseQuantity(item.product, item.quantity)}>-</button>
         <input type='number' value={item.quantity} readOnly />
-        <button>+</button>
+        <button onClick={()=>increaseQuantity(item.product, item.quantity, item.stock)}>+</button>
        </div>
        <p className='cartSubtotal'>{`₹${item.price*item.quantity}`}</p>
     </div>
+
+    ))}
+
+    <div className='cartGrossTotal'>
+      <div></div>
+      <div className='cartGrossTotalBox'>
+        <p>Gross Total</p>
+        <p>{`₹${cartItems.reduce(
+          (acc, item)=> acc+item.quantity*item.price, 0
+        )}`}</p>
+      </div>
+      <div></div>
+      <div className='checkOutBtn'>
+        <button>Check Out</button>
+      </div>
+    </div>
+
   </div>
+  </>)}
   </>
   )
 }

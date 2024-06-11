@@ -234,7 +234,11 @@ color: rgba(0, 0, 0, 0.548);
     }
 
     .detailsBlock-3-1-1 > input{
-        padding: 1.5vmax;
+        /* padding: 1.5vmax;
+        width: 3vmax;
+        font: 400 1.8vmax "Roboto"; */
+
+        padding: 0.2vmax;
         width: 3vmax;
         font: 400 1.8vmax "Roboto";
     }
