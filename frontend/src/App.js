@@ -20,6 +20,7 @@ import UpdatePassword from './component/User/UpdatePassword';
 import ForgotPassword from './component/User/ForgotPassword';
 import ResetPassword from './component/User/ResetPassword';
 import Cart from './component/Cart/Cart';
+import Shipping from './component/Cart/Shipping';
 
 function App() {
 
@@ -56,6 +57,7 @@ const {isAuthenticated, user}= useSelector(state=>state.user);
           <Route path='/password/forgot' element={<ForgotPassword/>}/>
           <Route path='/password/reset/:token' element={< ResetPassword/>}/>
           <Route path='/cart' element={<Cart/>}/>
+          <Route path='/login/shipping' element={<Shipping/>}/>
         </Routes>
         <Footer />
       </>

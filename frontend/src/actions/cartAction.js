@@ -1,5 +1,6 @@
 import {ADD_TO_CART} from '../constants/cartConstants';
 import { REMOVE_CART_ITEM } from '../constants/cartConstants';
+import { SAVE_SHIPPING_INFO } from '../constants/cartConstants';
 import axios from 'axios';
 
 // Add to Cart
@@ -26,5 +27,14 @@ dispatch({
     payload: id,
 });
 localStorage.setItem("cartItems", JSON.stringify(getState().cart.cartItems));
+};
+
+// Shipping info
+export const saveShippingInfo=(data)=> async(dispatch)=>{
+dispatch({
+    type: SAVE_SHIPPING_INFO ,
+    payload: data,
+});
+localStorage.setItem("shippingInfo", JSON.stringify(data));
 };
         
