@@ -12,12 +12,14 @@ import TransferWithinAStationIcon from '@material-ui/icons/TransferWithinAStatio
 import {Country, State} from 'country-state-city';
 import { useAlert } from 'react-alert';
 import CheckoutSteps from './CheckoutSteps'
+import {useNavigate} from 'react-router-dom'
 
 const Shipping = () => {
 
     const dispatch= useDispatch();
     const alert= useAlert();
     const {shippingInfo} = useSelector((state)=>state.cart);
+    const navigate= useNavigate();
 
     const [address, setAddress]= useState(shippingInfo.address);
     const [city, setCity]= useState(shippingInfo.city);
@@ -26,7 +28,17 @@ const Shipping = () => {
     const [pinCode, setPinCode]= useState(shippingInfo.pinCode);
     const [phoneNo, setPhoneNo]= useState(shippingInfo.phoneNo);
 
-const shippingSubmit= ()=>{};
+const shippingSubmit= (e)=>{
+    e.preventDefault();
+    if(phoneNo.length<10 || phoneNo.length>10){
+alert.error("Phone Number must contain 10 digits");
+return;
+    }
+    dispatch(
+        saveShippingInfo({address,city,state,country,pinCode,phoneNo})
+    );
+navigate('/order/confirm');
+};
 
   return (
  <>
