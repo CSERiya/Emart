@@ -19,6 +19,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import EventIcon from '@material-ui/icons/Event';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { useNavigate } from 'react-router-dom';
+import {createOrder, clearErrors} from '../../actions/orderAction'
 
 const Payment = () => {
 
@@ -32,10 +33,21 @@ const Payment = () => {
 
     const { shippingInfo, cartItems } = useSelector((state) => state.cart);
     const { user } = useSelector((state) => state.user);
+    const {error} = useSelector((state)=> state.newOrder);
 
     const paymentData = {
         amount: Math.round(orderInfo.totalPrice * 100),
     };
+
+const order= {
+    shippingInfo,
+    orderItems: cartItems,
+    itemsPrice: orderInfo.subtotal,
+    taxPrice: orderInfo.tax,
+    shippingPrice: orderInfo.shippingCharges,
+    totalPrice: orderInfo.totalPrice,
+};
+
     const submitHandler = async (e) => {
         e.preventDefault();
         payBtn.current.disabled = true;
@@ -73,6 +85,13 @@ const Payment = () => {
                 alert.error(result.error.message);
             } else {
                 if (result.paymentIntent.status === 'succeeded') {
+                    order.paymentinfo={
+                        id: result.paymentIntent.id,
+                        status: result.paymentIntent.status,
+                    };
+
+dispatch(createOrder(order));
+
                     navigate('/success');
                 } else {
                     alert.error('There is some issue while processing payment');
@@ -83,6 +102,13 @@ const Payment = () => {
             alert.error(error.response.data.message);
         }
     };
+
+    useEffect(()=> {
+        if(error){
+            alert.error(error);
+            dispatch(clearErrors());
+        }
+    },[dispatch, error, alert])
 
     return (
         <>
@@ -117,22 +143,25 @@ const Payment = () => {
 
 const StripeWrapper = () => {
     const [stripeApiKey, setStripeApiKey] = useState('');
-    console.log('Stripe API Key from backend:', stripeApiKey);
+  
     useEffect(() => {
-        const getStripeApiKey = async () => {
-            const { data } = await axios.get('/api/v1/stripeapikey');
-            setStripeApiKey(data.stripeApiKey);
-        };
-        getStripeApiKey();
+      const getStripeApiKey = async () => {
+        try {
+          const { data } = await axios.get('/api/v1/stripeapikey');
+          setStripeApiKey(data.stripeApiKey);
+        } catch (error) {
+          console.error('Error fetching Stripe API key:', error);
+        }
+      };
+      getStripeApiKey();
     }, []);
-
+  
     return (
-        stripeApiKey && (
-            <Elements stripe={loadStripe(stripeApiKey)}>
-                <Payment />
-            </Elements>
-        )
+      stripeApiKey && (
+        <Elements stripe={loadStripe(stripeApiKey)}>
+          <Payment />
+        </Elements>
+      )
     );
-};
-
-export default StripeWrapper;
+  };
+export default StripeWrapper;  
