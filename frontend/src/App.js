@@ -2,7 +2,7 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Header from "./component/layout/Header/Header";
 import Footer from "./component/layout/Footer/Footer";
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import WebFont from 'webfontloader';
 import React from 'react';
 import Home from './component/Home/Home';
@@ -91,7 +91,6 @@ function App() {
           <Route path='/password/reset/:token' element={<ResetPassword />} />
           <Route path='/cart' element={<Cart/>}  />
           <Route path='/login/shipping' element={<ProtectedRoute element={Shipping} />} />
-          <Route path='/order/confirm' element={<ProtectedRoute element={ConfirmOrder} />} />
           <Route path='/process/payment' element={
             stripeApiKey ? (
               <ProtectedStripeElements stripeApiKey={stripeApiKey}>
@@ -101,6 +100,8 @@ function App() {
           } />
           <Route path='/success' element={<ProtectedRoute element={OrderSuccess} />} />
           <Route path='/orders' element={<ProtectedRoute element={MyOrders} />} />
+
+          <Route path='/order/confirm' element={<ProtectedRoute element={ConfirmOrder} />} />
           <Route path='/order/:id' element={<ProtectedRoute element={OrderDetails}/>}/>
         </Routes>
         <Footer />
