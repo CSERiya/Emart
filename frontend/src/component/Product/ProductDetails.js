@@ -18,6 +18,7 @@ const ProductDetails = () => {
   const alert = useAlert();
 
   const { product, loading, error } = useSelector((state) => state.productDetails);
+  const { cartItems } = useSelector((state) => state.cart);
 
   const options = {
     edit: false,
@@ -28,23 +29,23 @@ const ProductDetails = () => {
     isHalf: true,
   };
 
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
+  const [stock, setStock] = useState(0);
 
   const increaseQuantity = () => {
-    if (product.Stock <= quantity) return;
-    const qty = quantity + 1;
-    setQuantity(qty);
+    if (stock <= quantity) return;
+    setQuantity(quantity + 1);
   };
 
   const decreaseQuantity = () => {
     if (quantity <= 1) return;
-    const qty = quantity - 1;
-    setQuantity(qty);
+    setQuantity(quantity - 1);
   };
 
   const addToCartHandler = () => {
     dispatch(addItemsToCart(id, quantity));
     alert.success("Item Added To Cart");
+    setStock(stock - quantity); 
   };
 
   useEffect(() => {
@@ -55,6 +56,19 @@ const ProductDetails = () => {
 
     dispatch(getProductDetails(id));
   }, [dispatch, id, error, alert]);
+
+  useEffect(() => {
+    if (product && product._id === id) {
+      const cartItem = cartItems.find((item) => item.product === id);
+      let currentStock = product.Stock;
+      if (cartItem) {
+        currentStock -= cartItem.quantity;
+      }
+
+      setStock(currentStock);
+      setQuantity(currentStock > 0 ? 1 : 0);
+    }
+  }, [product, cartItems, id]);
 
   return (
     <>
@@ -94,16 +108,27 @@ const ProductDetails = () => {
                 <h1>{`₹${product.price}`}</h1>
                 <div className='detailsBlock-3-1'>
                   <div className='detailsBlock-3-1-1'>
-                    <button onClick={decreaseQuantity}>-</button>
+
+<button className={quantity <= 1 || stock === 0 ? 'disabled' : ''} onClick={decreaseQuantity} 
+                      disabled={quantity <= 1 || stock === 0}>-
+                    </button>
                     <input readOnly value={quantity} type='number' />
-                    <button onClick={increaseQuantity}>+</button>
+                    <button className={quantity >= stock || stock === 0 ? 'disabled' : ''} onClick={increaseQuantity} 
+                      disabled={quantity >= stock || stock === 0}>+
+                    </button>
                   </div>
-                  <button onClick={addToCartHandler}>Add to Cart</button>
+                  <button
+                    className={stock < 1 ? 'disabled' : ''}
+                    disabled={stock < 1}
+                    onClick={addToCartHandler}
+                  >
+                    Add to Cart
+                  </button>
                 </div>
                 <p>
                   Status:
-                  <b className={product.Stock < 1 ? "redColor" : "greenColor"}>
-                    {product.Stock < 1 ? "OutOfStock" : "Available"}
+                  <b className={stock < 1 ? "redColor" : "greenColor"}>
+                    {stock < 1 ? "OutOfStock" : "Available"}
                   </b>
                 </p>
               </div>
@@ -120,7 +145,7 @@ const ProductDetails = () => {
 
           {product.reviews && product.reviews[0] ? (
             <div className='reviews'>
-              {product.reviews && product.reviews.map((review) => <ReviewCard key={review._id} review={review} />)}
+              {product.reviews.map((review) => <ReviewCard key={review._id} review={review} />)}
             </div>
           ) : (
             <p className='noReviews'>No Reviews Yet</p>
@@ -132,3 +157,4 @@ const ProductDetails = () => {
 };
 
 export default ProductDetails;
+

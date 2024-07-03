@@ -151,7 +151,7 @@ exports.getProductReviews= catchAsyncError(async(req,res,next)=>{
     });
 });
 
-// Deletr Review
+// Delete Review
 exports.deleteReview= catchAsyncError(async(req,res,next)=>{
     const product= await Product.findById(req.query.productId);
 
