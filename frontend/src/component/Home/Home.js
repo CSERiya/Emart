@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import './Home.css'
 import { CgMouse } from 'react-icons/cg';
-import Product from './ProductCard.js'
 import MetaData from '../layout/MetaData.js';
 import { getProduct } from '../../actions/productAction.js';
 import {useSelector, useDispatch} from "react-redux"
 import Loader from '../layout/Loader/Loader.js';
 import {useAlert} from 'react-alert'
 import { clearErrors } from '../../actions/productAction';
+import ProductCard from './ProductCard.js';
 
 
 const Home = () => {
@@ -42,7 +42,7 @@ const  {loading, error, products}= useSelector((state)=>state.products);
       <h2 className='homeHeading'>Featured Products</h2>
 
       <div className='container' id='container'>
-        {products && products.map((product) =><Product product={product}></Product>)}
+        {products && products.map((product) =><ProductCard product={product}></ProductCard>)}
       </div>
 </>}
     </>
