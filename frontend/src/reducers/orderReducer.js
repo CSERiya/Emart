@@ -27,7 +27,7 @@ case CREATE_ORDER_SUCCESS:
 
             case CREATE_ORDER_FAIL:
             return{
-                loading: true,
+                loading: false,
                 error: action.payload,
             }
 
@@ -57,7 +57,7 @@ case MY_ORDERS_SUCCESS:
 
             case MY_ORDERS_FAIL:
             return{
-                loading: true,
+                loading: false,
                 error: action.payload,
             }
 
@@ -87,7 +87,7 @@ case ORDER_DETAILS_SUCCESS:
 
             case ORDER_DETAILS_FAIL:
             return{
-                loading: true,
+                loading: false,
                 error: action.payload,
             }
 

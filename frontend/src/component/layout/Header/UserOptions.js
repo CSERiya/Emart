@@ -34,7 +34,7 @@ if(user.role ==='admin'){
 }
 
 function dashboard(){
-  navigate("/dashboard");
+  navigate("/admin/dashboard");
 }
 
 function orders(){

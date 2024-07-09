@@ -34,9 +34,11 @@ const ProductDetails = () => {
   )
 
   const options = {
+    size: 'medium',
     value: product.ratings,
     readOnly: true,
     precision: 0.5,
+     className: 'responsiveRating',
   };
 
   const [quantity, setQuantity] = useState(0);

@@ -33,7 +33,7 @@ const  {loading, error, products}= useSelector((state)=>state.products);
 
         <a href="#container">
             <button>
-            Scroll 
+            Browse 
             <CgMouse/>
             </button>
         </a>

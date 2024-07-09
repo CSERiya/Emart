@@ -208,6 +208,16 @@ text-align: center;
 color: rgba(0, 0, 0, 0.548);
 }
 
+.MuiRating-decimal {
+    font-size: 1rem;
+        }
+
+        @media(max-width:768px){
+            .MuiRating-decimal {
+                font-size: 0.8rem;
+                    }
+        }
+
 @media  screen and (max-width: 600px) {
     .productDetails{
         flex-direction: column;
@@ -216,6 +226,10 @@ color: rgba(0, 0, 0, 0.548);
 
     .productDetails > div:last-child{
         align-items: center;
+    }
+
+    .MuiRating-decimal {
+font-size: 0.5rem;
     }
 
     .detailsBlock-1 > h2{
@@ -290,6 +304,14 @@ color: rgba(0, 0, 0, 0.548);
         padding: 1.5vmax;
         width: 20vmax;
         margin: 3vmax 0;
+    }
+
+    .reviewCard>p{
+        font: 600 3vw 'Roboto';
+    }
+
+    .reviewCardComment{
+        font: 300 5vw cursive;
     }
 }
 

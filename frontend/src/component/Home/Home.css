@@ -1,13 +1,15 @@
-.banner{
-    background-image: linear-gradient(to right,#635dc0, #3027ae);
-    height:100vmin;
+.banner {
+    background: linear-gradient(to right, rgba(99, 93, 192, 0.5), rgba(48, 39, 174, 0.5)), url('../../images/background.png');
+    background-size: cover;
+    background-position: center;
+    height: 100vmin;
     display: flex;
     flex-direction: column;
     text-align: center;
     align-items: center;
     justify-content: center;
     color: white;
-}
+  }
 
 .banner > h1{
     margin: 5vmax;
@@ -43,7 +45,7 @@
     position: absolute;
     top: 0%;
     left: 0;
-    clip-path: polygon(100% 68%, 0 100%, 100% 100%);
+    clip-path: polygon(100% 100%, 0 100%, 100% 100%);
     max-width: 100%;
 }
 
@@ -124,7 +126,7 @@ padding-bottom: 0.5vmax;
     .productCard > span{
         font-size: 1.5vmax;
     }
-    .productCard > div> span{
+    .productCardSpan{
         margin: 0 0.5vmax;
         font: 300 1vmax "Roboto";
     }

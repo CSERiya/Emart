@@ -2,14 +2,13 @@ import './App.css';
 import { useState, useEffect } from 'react';
 import Header from "./component/layout/Header/Header";
 import Footer from "./component/layout/Footer/Footer";
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import React from 'react';
 import Home from './component/Home/Home';
 import ProductDetails from './component/Product/ProductDetails';
 import Products from './component/Product/Products';
 import Search from './component/Product/Search';
-import { useParams } from 'react-router-dom';
 import LoginSignUp from './component/User/LoginSignUp';
 import store from './store';
 import { loadUser } from './actions/userAction';
@@ -31,11 +30,11 @@ import ProtectedRoute from './component/Route/ProtectedRoute';
 import ProtectedStripeElements from './component/Route/ProtectedStripeElements';
 import Loader from './component/layout/Loader/Loader'; 
 import OrderDetails from './component/Order/OrderDetails';
+import Dashboard from './component/admin/Dashboard';
 
 function App() {
-  const { isAuthenticated, user } = useSelector(state => state.user);
+  const { isAuthenticated, user, loading } = useSelector(state => state.user);
   const [stripeApiKey, setStripeApiKey] = useState("");
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     WebFont.load({
@@ -49,7 +48,6 @@ function App() {
   }, []);
 
   async function getStripeApiKey() {
-    setLoading(true); 
     try {
       const token = localStorage.getItem("token"); 
       const config = {
@@ -62,12 +60,9 @@ function App() {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         console.log("Unauthorized request, redirecting to login");
-       
       } else {
         console.error("Error fetching Stripe API key:", error);
       }
-    } finally {
-      setLoading(false); 
     }
   }
 
@@ -79,17 +74,17 @@ function App() {
         {isAuthenticated && <UserOptions user={user} />}
         <Routes>
           <Route path='/' element={<Home />} />
-          <Route path="/product/:id" element={<ProductDetails/>} />
-          <Route path="/products" element={<Products/>} />
+          <Route path="/product/:id" element={<ProductDetails />} />
+          <Route path="/products" element={<Products />} />
           <Route path='/products/:keyword' element={<Products match={params} />} />
-          <Route path='/Search' element={<Search/>}/>
-          <Route path='/login' element={<LoginSignUp/>}/>
+          <Route path='/search' element={<Search />} />
+          <Route path='/login' element={<LoginSignUp />} />
           <Route path="/account" element={<ProtectedRoute element={Profile} />} />
           <Route path="/me/update" element={<ProtectedRoute element={UpdateProfile} />} />
           <Route path="/password/update" element={<ProtectedRoute element={UpdatePassword} />} />
           <Route path='/password/forgot' element={<ForgotPassword />} />
           <Route path='/password/reset/:token' element={<ResetPassword />} />
-          <Route path='/cart' element={<Cart/>}  />
+          <Route path='/cart' element={<Cart />} />
           <Route path='/login/shipping' element={<ProtectedRoute element={Shipping} />} />
           <Route path='/process/payment' element={
             stripeApiKey ? (
@@ -100,9 +95,9 @@ function App() {
           } />
           <Route path='/success' element={<ProtectedRoute element={OrderSuccess} />} />
           <Route path='/orders' element={<ProtectedRoute element={MyOrders} />} />
-
           <Route path='/order/confirm' element={<ProtectedRoute element={ConfirmOrder} />} />
-          <Route path='/order/:id' element={<ProtectedRoute element={OrderDetails}/>}/>
+          <Route path='/order/:id' element={<ProtectedRoute element={OrderDetails} />} />
+          <Route path='/admin/dashboard' element={<ProtectedRoute isAdmin={true} element={Dashboard} />} />
         </Routes>
         <Footer />
       </>
@@ -111,12 +106,9 @@ function App() {
 
   return (
     <Router>
-      {loading && <Loader />} 
-      <NestedRoutes />
+      {loading ? <Loader /> : <NestedRoutes />}
     </Router>
   );
 }
 
 export default App;
-
-
