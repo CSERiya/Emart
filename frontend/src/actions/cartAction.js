@@ -25,7 +25,7 @@ export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
     type: PRODUCT_DETAILS_SUCCESS,
     payload: {
       ...data.product,
-      Stock: data.product.Stock - quantity,
+      stock: data.product.Stock - quantity,
     },
   });
 };
@@ -44,12 +44,12 @@ export const removeItemsFromCart = (id) => (dispatch, getState) => {
 
   // Update product details stock in the state
   if (item) {
-    const updatedStock = item.stock + item.quantity;
+    const updatedStock = item.Stock + item.quantity;  
     dispatch({
       type: PRODUCT_DETAILS_SUCCESS,
       payload: {
         ...item,
-        Stock: updatedStock,
+        stock: updatedStock,
       },
     });
   }

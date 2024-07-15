@@ -41,7 +41,7 @@ required:[true,"Please Enter Product Category"],
         type:Number,
         required:[true,"Please Enter product Stock"],
         maxLength:[4,"Stock Cannot exceed 4 characters"],
-        default:1
+        default:1 
     },
     numOfReviews:{
         type:Number,

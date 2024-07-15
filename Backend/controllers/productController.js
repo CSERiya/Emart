@@ -41,6 +41,18 @@ exports.getAllProducts = catchAsyncError(async (req, res, next) => {
     });
   });
 
+  // Get All Product (Admin)
+  exports.getAdminProducts = catchAsyncError(async (req, res, next) => {
+  
+    const products = await Product.find();
+  
+    res.status(200).json({
+      success: true,
+      products,
+    });
+  });
+
+
 
 
 // Update Product -- Accessible by Admin only
@@ -184,4 +196,4 @@ exports.deleteReview= catchAsyncError(async(req,res,next)=>{
     res.status(200).json({
         success:true,
     });
-});
+}); 

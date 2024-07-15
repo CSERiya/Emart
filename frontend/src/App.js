@@ -31,6 +31,8 @@ import ProtectedStripeElements from './component/Route/ProtectedStripeElements';
 import Loader from './component/layout/Loader/Loader'; 
 import OrderDetails from './component/Order/OrderDetails';
 import Dashboard from './component/admin/Dashboard';
+import ProductList from './component/admin/ProductList';
+import NewProduct from './component/admin/NewProduct';
 
 function App() {
   const { isAuthenticated, user, loading } = useSelector(state => state.user);
@@ -98,6 +100,8 @@ function App() {
           <Route path='/order/confirm' element={<ProtectedRoute element={ConfirmOrder} />} />
           <Route path='/order/:id' element={<ProtectedRoute element={OrderDetails} />} />
           <Route path='/admin/dashboard' element={<ProtectedRoute isAdmin={true} element={Dashboard} />} />
+          <Route path='/admin/products' element={<ProtectedRoute isAdmin={true} element={ProductList} />} />
+          <Route path='/admin/product' element={<ProtectedRoute isAdmin={true} element={NewProduct}/>}/>
         </Routes>
         <Footer />
       </>
