@@ -65,22 +65,40 @@ const createProductSubmitHandler= (e)=>{
     dispatch(createProduct(myForm));
 };
 
-const createProductImagesChange= (e)=>{
-    const files= Array.from(e.target.files);
-    setImages([]);
-    setImagesPreview([]);
+// const createProductImagesChange= (e)=>{
+//     const files= Array.from(e.target.files);
+//     setImages([]);
+//     setImagesPreview([]);
 
-    files.forEach((file)=>{
-const reader= new FileReader();
-reader.onload= ()=>{
-    if(reader.readyState===2){
-        setImagesPreview((old)=>[...old, reader.result]);
-        setImages((old)=>[...old,reader.result]);
-    }
-};
-reader.readAsDataURL(file);
+//     files.forEach((file)=>{
+// const reader= new FileReader();
+// reader.onload= ()=>{
+//     if(reader.readyState===2){
+//         setImagesPreview((old)=>[...old, reader.result]);
+//         setImages((old)=>[...old,reader.result]);
+//     }
+// };
+// reader.readAsDataURL(file);
+//     });
+// };
+const createProductImagesChange = (e) => {
+    const files = Array.from(e.target.files);
+
+    setImages((prevImages) => [...prevImages, ...files]);
+    const newImagesPreview = [];
+
+    files.forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+            if (reader.readyState === 2) {
+                newImagesPreview.push(reader.result);
+                setImagesPreview((old) => [...old, reader.result]);
+            }
+        };
+        reader.readAsDataURL(file);
     });
 };
+
   return (
     <>
     <MetaData title='Create Product'/>
@@ -162,6 +180,7 @@ multiple
         <Button
         id='createProductBtn'
         type='submit'
+        onChange={createProductSubmitHandler}
         disabled={loading? true:false}
         >
 Create

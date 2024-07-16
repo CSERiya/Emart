@@ -5,7 +5,7 @@
     border-left: 1px solid rgba(0, 0, 0, 0.158);
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: auto;
   }
   .newProductContainer h1 {
     color: rgba(0, 0, 0, 0.733);
@@ -18,12 +18,13 @@
     flex-direction: column;
     align-items: center;
     margin: auto;
-    padding: 3vmax;
+    padding: 2vmax;
     justify-content: space-evenly;
     height: 70%;
-    width: 80vh;
+    width: auto;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.267);
+    transition: all 0.5s;
   }
   
   .createProductForm > div {
@@ -36,6 +37,7 @@
   .createProductForm > div > textarea {
     padding: 1vmax 4vmax;
     padding-right: 1vmax;
+    margin: 0.2vmax;
     width: 100%;
     box-sizing: border-box;
     border: 1px solid rgba(0, 0, 0, 0.267);
@@ -81,7 +83,9 @@
   
   #createProductFormImage > img {
     width: 3vmax;
+    /* height: 5vmax; */
     margin: 0 0.5vmax;
+    /* border-radius: 100%; */
   }
   #createProductBtn {
     border: none;
@@ -104,9 +108,11 @@
   @media screen and (max-width: 600px) {
     .newProductContainer {
       background-color: rgb(255, 255, 255);
+      height: 150vh;
     }
     .createProductForm {
       padding: 5vmax;
+      margin: 5vmax;
     }
   
     .createProductForm > div > input,
@@ -121,8 +127,10 @@
     }
   
     #createProductFormFile > img {
+      margin: 3cm;
       width: 8vmax;
       border-radius: 100%;
+
     }
   
     #createProductFormFile > input::file-selector-button {
