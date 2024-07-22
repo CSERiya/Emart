@@ -177,4 +177,4 @@ Create
   )
 }
 
-export default NewProduct
+export default NewProduct 
