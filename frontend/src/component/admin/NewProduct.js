@@ -51,37 +51,40 @@ if(success){
 }
     },[dispatch, alert, error, navigate, success]);
 
-const createProductSubmitHandler= (e)=>{
-    e.preventDefault();
-    const myForm= new FormData();
-    myForm.set("name", name);
-    myForm.set("price", price);
-    myForm.set("description", description);
-    myForm.set("category", Category);
-    myForm.set("Stock", Stock);
-    images.forEach((image)=>{
-        myForm.append("images", image);
-    });
-    dispatch(createProduct(myForm));
-};
+    const createProductSubmitHandler= (e)=>{
+        e.preventDefault();
+        const myForm= new FormData();
+        myForm.set("name", name);
+        myForm.set("price", price);
+        myForm.set("description", description);
+        myForm.set("category", Category);
+        myForm.set("Stock", Stock);
+        
+        images.forEach((image)=>{
+            myForm.append("images", image);
+        });
+      
+        dispatch(createProduct(myForm));
+      };
+      
 
 const createProductImagesChange = (e) => {
     const files = Array.from(e.target.files);
-
+  
     setImages([]);
     setImagesPreview([]);
-
+  
     files.forEach((file) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-            if (reader.readyState === 2) {
-                setImagesPreview((old) => [...old, reader.result]);
-                setImages((old) => [...old, reader.result]);
-            }
-        };
-        reader.readAsDataURL(file);
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (reader.readyState === 2) {
+          setImagesPreview((old) => [...old, reader.result]);
+          setImages((old) => [...old, reader.result]);
+        }
+      };
+      reader.readAsDataURL(file);
     });
-};
+  };  
 
 
   return (
@@ -148,14 +151,14 @@ const createProductImagesChange = (e) => {
     </div>
 
     <div id='createProductFormFile'>
-<input
-type='file'
-name='avatar'
-accept='image/*'
-onChange={createProductImagesChange}
-multiple
-/>
-        </div>
+  <input
+    type='file'
+    name='avatar'
+    accept='image/*'
+    onChange={createProductImagesChange}
+    multiple
+  />
+</div>
 
         <div id='createProductFormImage'>
             {imagesPreview.map((image, index)=>(
@@ -178,3 +181,4 @@ Create
 }
 
 export default NewProduct 
+

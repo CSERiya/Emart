@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import './ProductList.css';
 import { DataGrid } from '@mui/x-data-grid';
 import { useSelector, useDispatch } from 'react-redux';
-import { clearErrors, getAdminProduct } from '../../actions/productAction';
+import { clearErrors, getAdminProduct, deleteProduct } from '../../actions/productAction';
 import { Link } from 'react-router-dom';
 import { useAlert } from 'react-alert';
 import { Button } from '@material-ui/core';
@@ -10,21 +10,40 @@ import MetaData from '../layout/MetaData';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SideBar from './Sidebar';
+import { useNavigate } from 'react-router-dom';
+import { DELETE_PRODUCT_RESET } from '../../constants/productConstants';
 
 const ProductList = () => {
     const alert = useAlert();
     const dispatch = useDispatch();
     const { error, products } = useSelector((state) => state.products);
+    const navigate=useNavigate();
+
+    const {error:deleteError, isDeleted}= useSelector((state)=>state.product);
+
+const deleteProductHandler=(id)=>{
+    dispatch(deleteProduct(id));
+}
 
     useEffect(() => {
         if (error) {
             alert.error(error);
             dispatch(clearErrors());
         }
-        dispatch(getAdminProduct());
-    }, [dispatch, alert, error]);
 
-    
+if(deleteError){
+    alert.error(deleteError);
+    dispatch(clearErrors());
+}
+
+if(isDeleted){
+    alert.success('Product Deleted Successfully');
+    navigate("/admin/dashboard");
+    dispatch({type:DELETE_PRODUCT_RESET});
+}
+
+        dispatch(getAdminProduct());
+    }, [dispatch, alert, error,navigate, deleteError, isDeleted]);
 
     const columns = [
         { field: "id", headerName: "Product ID", minWidth: 200, flex: 0.5 },
@@ -61,7 +80,7 @@ const ProductList = () => {
                         <Link to={`/admin/products/${params.row.id}`}>
                             <EditIcon />
                         </Link>
-                        <Button>
+                        <Button onClick={()=>deleteProductHandler(params.row.id)}>
                             <DeleteIcon />
                         </Button>
                     </>

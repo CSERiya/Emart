@@ -7,17 +7,18 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 const errorMiddleware = require('./middleware/error');
 const cloudinary = require("cloudinary").v2;
-const stripe = require('stripe');
 const cors = require('cors');
 
 // Load environment variables
 dotenv.config({ path: "backend/config/config.env" });
 
 // Middleware
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(fileUpload());
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(fileUpload({
+    limits: { fileSize: 50 * 1024 * 1024 }, // 50 MB limit
+}));
 app.use(cors());
 
 // Route Imports
@@ -25,8 +26,6 @@ const product = require("./routes/productRoute");
 const user = require("./routes/userRoute");
 const order = require("./routes/orderRoute");
 const payment = require('./routes/paymentRoute');
-app.use(bodyParser.json({ limit: '50mb' }));
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 
 app.use("/api/v1", product);
 app.use("/api/v1", user);
@@ -78,5 +77,3 @@ process.on("unhandledRejection", (err) => {
         process.exit(1);
     });
 });
-
-module.exports = stripe;

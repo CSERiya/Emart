@@ -1,20 +1,4 @@
-// const mongoose = require('mongoose');
-
-// const productSchema = new mongoose.Schema({
-//     name: { type: String, required: true },
-//     description: { type: String, required: true },
-//     price: { type: Number, required: true },
-//     ratings: { type: Number, default: 0 },
-//     images: [String], // Array to store multiple image URLs
-//     category: { type: String, required: true },
-//     stock: { type: Number, required: true },
-//     numOfReviews: { type: Number, default: 0 },
-//     user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-//     reviews: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Review' }],
-//     createdAt: { type: Date, default: Date.now }
-//   }); 
-
-  const mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema({
     name: {
@@ -36,17 +20,17 @@ const productSchema = new mongoose.Schema({
         default: 0,
     },
     images: [
-      {
-        public_id: {
+        {
+          public_id: {
             type: String,
             required: true,
-        },
-        url: {
+          },
+          url: {
             type: String,
             required: true,
+          },
         },
-    },
-    ],
+      ],
     category: {
         type: String,
         required: [true, 'Please select category for this product'],
