@@ -77,7 +77,7 @@ if(isDeleted){
             renderCell: (params) => {
                 return (
                     <>
-                        <Link to={`/admin/products/${params.row.id}`}>
+                        <Link to={`/admin/product/${params.row.id}`}>
                             <EditIcon />
                         </Link>
                         <Button onClick={()=>deleteProductHandler(params.row.id)}>
