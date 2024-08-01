@@ -74,7 +74,7 @@ dispatch({
 export const newReview= (reviewData)=> async(dispatch)=>{
     try{
 dispatch({type:NEW_REVIEW_REQUEST});
-
+  
 const config= {
     headers: {
         "Content-Type": "application/json"

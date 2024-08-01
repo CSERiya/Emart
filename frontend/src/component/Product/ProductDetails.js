@@ -218,4 +218,3 @@ onChange={(e)=> setComment(e.target.value)}></textarea>
 };
 
 export default ProductDetails;
-

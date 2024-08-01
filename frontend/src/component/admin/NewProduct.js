@@ -24,7 +24,7 @@ const NewProduct = () => {
     const[name, setName]= useState("");
     const[price, setPrice]= useState(0);
     const[description, setDescription]= useState("");
-    const[Category, setCategory]= useState("");
+    const[category, setCategory]= useState("");
     const[Stock, setStock]=useState(0);
     const[images, setImages]= useState([]);
     const[imagesPreview, setImagesPreview]= useState([]);
@@ -57,7 +57,7 @@ if(success){
         myForm.set("name", name);
         myForm.set("price", price);
         myForm.set("description", description);
-        myForm.set("category", Category);
+        myForm.set("category", category);
         myForm.set("Stock", Stock);
         
         images.forEach((image)=>{
@@ -162,7 +162,7 @@ const createProductImagesChange = (e) => {
 
         <div id='createProductFormImage'>
             {imagesPreview.map((image, index)=>(
-                <img key={index} src={image} alt="Avatar Preview"/>
+                <img key={index} src={image} alt="Product Preview"/>
             ))}
         </div>
 

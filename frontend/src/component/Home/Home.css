@@ -78,6 +78,7 @@ color: rgb(48, 48, 48);
 margin: 2vmax;
 transition: all 0.5s;
 padding-bottom: 0.5vmax;
+box-shadow: 0 0 3px rgba(15, 15, 15, 0.26);
 }
 
 .productCard > img{
