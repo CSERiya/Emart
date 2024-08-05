@@ -4,34 +4,42 @@ const ErrorHandler = require("../utils/errorhandler");
 const catchAsyncError= require('../middleware/catchAsyncErrors');
 const ApiFeatures = require("../utils/apifeatures");
 
-// Create new Oder
-exports.newOrder= catchAsyncError(async(req,res,next)=>{
-    const {
-        shippingInfo, 
-        orderItems, 
-        paymentInfo, 
-        itemsPrice, 
-        taxPrice, 
-        shippingPrice, 
-        totalPrice
-    }= req.body;
+// Create new Order
+exports.newOrder = catchAsyncError(async (req, res, next) => {
+    try {
+        const {
+            shippingInfo, 
+            orderItems, 
+            paymentInfo, 
+            itemsPrice, 
+            taxPrice, 
+            shippingPrice, 
+            totalPrice
+        } = req.body;
 
-    const order= await Order.create({
-        shippingInfo, 
-        orderItems, 
-        paymentInfo, 
-        itemsPrice, 
-        taxPrice, 
-        shippingPrice, 
-        totalPrice,
-        paidAt: Date.now(),
-        user: req.user._id,
-    });
+        const order = await Order.create({
+            shippingInfo, 
+            orderItems, 
+            paymentInfo, 
+            itemsPrice, 
+            taxPrice, 
+            shippingPrice, 
+            totalPrice,
+            paidAt: Date.now(),
+            user: req.user._id, 
+        });
 
-    res.status(201).json({
-        success:true,
-        order,
-    });
+        res.status(201).json({
+            success: true,
+            order,
+        });
+    } catch (error) {
+        console.error("Order creation error:", error); 
+        res.status(500).json({
+            success: false,
+            message: error.message,
+        });
+    }
 });
 
 // get Single order details
@@ -50,15 +58,14 @@ exports.getSingleOrder= catchAsyncError(async(req,res,next)=>{
 }); 
 
 // get logged in user Orders -- logged in user can see his/her orders
-exports.myOrders= catchAsyncError(async(req,res,next)=>{
-
-    const orders= await Order.find({user:req.user._id});  // it will give all the orders associated with this user id.
+exports.myOrders = catchAsyncError(async (req, res, next) => {
+    const orders = await Order.find({ user: req.user._id }); // Fetch orders by user ID
 
     res.status(200).json({
-        success:true,
+        success: true,
         orders,
     });
-}); 
+});
 
 // get all Orders -- Admin
 exports.allOrders= catchAsyncError(async(req,res,next)=>{

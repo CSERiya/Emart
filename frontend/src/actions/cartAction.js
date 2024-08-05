@@ -34,13 +34,13 @@ export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
 export const removeItemsFromCart = (id) => (dispatch, getState) => {
   const state = getState();
   const item = state.cart.cartItems.find((i) => i.product === id);
-
   dispatch({
     type: REMOVE_CART_ITEM,
     payload: id,
   });
 
-  localStorage.setItem("cartItems", JSON.stringify(state.cart.cartItems));
+  const { cart: { cartItems } } = getState();
+  localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
   // Update product details stock in the state
   if (item) {

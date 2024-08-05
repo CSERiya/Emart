@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import CheckoutSteps from './CheckoutSteps';
+import CheckoutSteps from './CheckoutSteps';   
 import { useSelector, useDispatch } from 'react-redux';
 import MetaData from '../layout/MetaData';
 import { Typography } from '@material-ui/core';
@@ -85,7 +85,7 @@ const order= {
                 alert.error(result.error.message);
             } else {
                 if (result.paymentIntent.status === 'succeeded') {
-                    order.paymentinfo={
+                    order.paymentInfo={
                         id: result.paymentIntent.id,
                         status: result.paymentIntent.status,
                     };

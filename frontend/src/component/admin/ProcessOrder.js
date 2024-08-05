@@ -1,29 +1,53 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import MetaData from '../layout/MetaData';
 import {Link, useParams} from 'react-router-dom';
-import { Typography } from '@material-ui/core';
+import { Typography } from '@material-ui/core'; 
 import SideBar from './Sidebar';
 import { clearErrors } from '../../actions/productAction';
-import { getOrderDetails } from '../../actions/orderAction';
+import { getOrderDetails, updateOrder } from '../../actions/orderAction';
 import { useAlert } from 'react-alert';
 import Loader from '../layout/Loader/Loader';
+import AccountTreeIcon from '@material-ui/icons/AccountTree';
+import { Button } from '@material-ui/core';
+import { UPDATE_ORDER_RESET } from '../../constants/orderConstants';
+import './processOrder.css';
 
 const ProcessOrder = () => {
     const {order, error, loading}=useSelector((state)=>state.orderDetails);
+const {error: updateError, isUpdated}= useSelector((state)=>state.order);
+
     const dispatch= useDispatch();
     const { id } = useParams();
     const alert= useAlert();
 
-const proceedToPayment= ()=>{};
+    const updateOrderSubmitHandler=(e)=>{
+  e.preventDefault();
+        const myForm = new FormData();
+        myForm.set("status", status);
+        dispatch(updateOrder(id, myForm));
+    };
+
+   const[status, setStatus]= useState("");
+
 useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
 
+    if (updateError) {
+        alert.error(updateError);
+        dispatch(clearErrors());
+      }
+
+      if (isUpdated) {
+        alert.success("Order Updated Successfully");
+        dispatch({type: UPDATE_ORDER_RESET});
+      }
+
     dispatch(getOrderDetails(id));
-  }, [dispatch, alert, error, id]);
+  }, [dispatch, alert, error, id, isUpdated, updateError]);
 
   return (
     <>
@@ -51,13 +75,13 @@ useEffect(() => {
                     <div>
                       <p>Phone:</p>
                       <span>
-                        {order.shippingInfo && order.shippingInfo.phoneNo}
+                        {order && order.shippingInfo && order.shippingInfo.phoneNo}
                       </span>
                     </div>
                     <div>
                       <p>Address:</p>
                       <span>
-                        {order.shippingInfo &&
+                        {order && order.shippingInfo &&
                           `${order.shippingInfo.address}, ${order.shippingInfo.city}, ${order.shippingInfo.state}, ${order.shippingInfo.pinCode}, ${order.shippingInfo.country}`}
                       </span>
                     </div>
@@ -122,32 +146,31 @@ useEffect(() => {
                       </div>
                       </div>
                       <div>
-                      <div className='orderSummary'>
-        <Typography>Order Summary</Typography>
-        <div>
-            <div>
-                <p>Subtotal:</p>
-                <span>₹{12312}</span>
-            </div>
-            <div>
-                <p>Shipping Charges:</p>
-                <span>₹{276}</span>
-            </div>
-            <div>
-                <p>GST:</p>
-                <span>₹{333}</span>
-            </div>
-        </div>
+                      <form className='updateOrderForm' onSubmit={updateOrderSubmitHandler}
+                    >
+                        <h1>Process Order</h1>
+                       
+                        <div>
+                            <AccountTreeIcon />
+                            <select onChange={(e) => setStatus(e.target.value)}>
+                                <option value="">Choose Category</option>
+                                {order.orderStatus==='Processing' && (
+                                  <option value="Shipped">Shipped</option>
+                                )}
+                                {order.orderStatus==='Shipped' && (
+                                  <option value="Delivered">Delivered</option>
+                                )}
+                            </select>
+                        </div>
 
-        <div className='orderSummaryTotal'>
-            <p>
-                <b>Total:</b>
-            </p>
-            <span>₹{13123}</span>
-        </div>
-  
-        <button onClick={proceedToPayment}>Proceed To Payment</button>
-    </div>
+                        <Button
+                            id='createProductBtn'
+                            type='submit'
+                            disabled={loading ? true : false || status===""?true:false}
+                        >
+                          PROCESS
+                        </Button>
+                    </form>
 </div>
 
         </div>

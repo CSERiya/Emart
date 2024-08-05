@@ -3,16 +3,16 @@ import { PRODUCT_DETAILS_SUCCESS } from '../constants/productConstants';
 
 export const cartReducer = (state = { cartItems: [], shippingInfo: {} }, action) => {
   switch (action.type) {
+
     case ADD_TO_CART:
       const item = action.payload;
+      const existItem = state.cartItems.find((i) => i.product === item.product);
 
-      const isItemExist = state.cartItems.find((i) => i.product === item.product);
-
-      if (isItemExist) {
+      if (existItem) {
         return {
           ...state,
           cartItems: state.cartItems.map((i) =>
-            i.product === isItemExist.product ? item : i
+            i.product === existItem.product ? item : i
           ),
         };
       } else {
