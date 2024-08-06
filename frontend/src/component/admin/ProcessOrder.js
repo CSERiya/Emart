@@ -145,7 +145,11 @@ useEffect(() => {
                       </div>
                       </div>
                       </div>
-                      <div>
+                      <div
+                      style={{display:
+                        order.orderStatus==="Delivered"?"none":"block",
+                      }}
+                      >
                       <form className='updateOrderForm' onSubmit={updateOrderSubmitHandler}
                     >
                         <h1>Process Order</h1>

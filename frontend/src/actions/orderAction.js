@@ -20,9 +20,10 @@ import {
     DELETE_ORDER_FAIL,
     CLEAR_ERRORS,
 } from '../constants/orderConstants'
+import { REMOVE_CART_ITEM } from '../constants/cartConstants';
 
 // Create Order
-export const createOrder = (order) => async (dispatch) => {
+export const createOrder = (order) => async (dispatch, getState) => {
     try {
         dispatch({ type: CREATE_ORDER_REQUEST });
 
@@ -35,6 +36,18 @@ export const createOrder = (order) => async (dispatch) => {
         const { data } = await axios.post('/api/v1/order/new', order, config);
 
         dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
+
+        // Remove items from the cart
+        order.orderItems.forEach(item => {
+            dispatch({
+                type: REMOVE_CART_ITEM,
+                payload: item.product,
+            });
+        });
+
+        // Update localStorage
+        localStorage.setItem('cartItems', JSON.stringify(getState().cart.cartItems));
+
     } catch (error) {
         dispatch({
             type: CREATE_ORDER_FAIL,
@@ -42,7 +55,6 @@ export const createOrder = (order) => async (dispatch) => {
         });
     }
 };
-
 
     // My Orders
 export const myOrders= ()=> async(dispatch) =>{

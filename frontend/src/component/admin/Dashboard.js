@@ -7,6 +7,7 @@ import { Chart, CategoryScale, LinearScale, PointElement, LineElement, ArcElemen
 import { Doughnut, Line } from 'react-chartjs-2';
 import { useSelector, useDispatch } from 'react-redux'
 import {  getAdminProduct } from '../../actions/productAction'
+import { getAllOrders } from '../../actions/orderAction'
 
 // Register the components with Chart.js
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement, Title, Tooltip, Legend);
@@ -14,6 +15,7 @@ Chart.register(CategoryScale, LinearScale, PointElement, LineElement, ArcElement
 const Dashboard = () => {
   const dispatch= useDispatch();
   const { products}=useSelector((state)=> state.products);
+  const { orders }= useSelector((state)=> state.allOrders);
   let outOfStock=0;
 
   products && products.forEach((item)=>{
@@ -24,6 +26,7 @@ if(item.Stock===0){
 
   useEffect(()=>{
     dispatch(getAdminProduct());
+    dispatch(getAllOrders());
   },[dispatch]);
 
   const lineState={
@@ -68,7 +71,7 @@ datasets:[
     </Link>
     <Link to='/admin/orders'>
     <p>Orders</p>
-    <p>4</p>
+    <p>{orders && orders.length}</p>
     </Link>
     <Link to='/admin/users'>
     <p>Users</p>
